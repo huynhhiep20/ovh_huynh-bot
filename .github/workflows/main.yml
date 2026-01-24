@@ -1,0 +1,38 @@
+name: OVH Stock Checker
+
+on:
+  schedule:
+    # Chạy mỗi 10 phút một lần
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Cho phép bấm chạy thủ công để test
+
+jobs:
+  check-stock:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      
+      - name: Install Chrome (for Selenium)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser chromium-chromedriver
+            
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run stock checker
+        env:
+          MODE: once
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python check_vps.py
