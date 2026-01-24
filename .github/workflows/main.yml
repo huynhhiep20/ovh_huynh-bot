@@ -3,9 +3,8 @@ name: OVH Stock Checker
 on:
   schedule:
     # Chạy mỗi 10 phút một lần
-    - cron: '*/10 * * * *'
+    - cron: '*/5 * * * *'
   workflow_dispatch: # Cho phép bấm chạy thủ công để test
-
 jobs:
   check-stock:
     runs-on: ubuntu-latest
