@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  ovh-bot:
+    build: .
+    container_name: ovh-stock-checker
+    restart: unless-stopped
+    environment:
+      - MODE=continuous
+      - CHECK_INTERVAL=60
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - NOTIFY_ONLY_IN_STOCK=${NOTIFY_ONLY_IN_STOCK:-false}
