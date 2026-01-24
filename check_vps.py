@@ -92,9 +92,17 @@ def fetch_ovh_configurator_with_asia_tab(url, timeout=30):
     
     driver = None
     try:
-        # Dùng webdriver-manager để tự động cài ChromeDriver
-        service = ChromeService(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=service, options=chrome_options)
+        # Trên GitHub Actions/Ubuntu: dùng chromedriver từ system (đã cài qua apt)
+        # Local: webdriver-manager sẽ tự động tải
+        try:
+            # Thử dùng system chromedriver trước (cho GitHub Actions)
+            service = ChromeService('/usr/bin/chromedriver')
+            driver = webdriver.Chrome(service=service, options=chrome_options)
+        except Exception:
+            # Fallback: dùng webdriver-manager (cho local)
+            service = ChromeService(ChromeDriverManager().install())
+            driver = webdriver.Chrome(service=service, options=chrome_options)
+        
         driver.set_page_load_timeout(timeout)
         
         print("🌐 Đang mở trang OVH configurator...")

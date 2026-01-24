@@ -35,4 +35,5 @@ jobs:
           MODE: once
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          NOTIFY_ONLY_IN_STOCK:  ${{ secrets.NOTIFY_ONLY_IN_STOCK }}  
         run: python check_vps.py
